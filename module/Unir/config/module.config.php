@@ -53,7 +53,7 @@ return [
                 4 => 'code',
                 5 => 'precise_origin',
             ],
-            'page_size' => '51423',
+            'page_size' => '50',
             'page_size_param' => 'page_size',
             'entity_class' => \Unir\V1\Rest\Redirects\RedirectsEntity::class,
             'collection_class' => \Unir\V1\Rest\Redirects\RedirectsCollection::class,
