@@ -11,20 +11,28 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
     const CIRCULAR = 'circular';
     const DUPE = 'duplicated';
     const CONFLICT = 'conflict';
+    const SELFPOINTED = 'SELFPOINTED';
 
     protected $messageTemplates = [
         self::CONFLICT => "El URI de origen hace conflicto con uno existente, no se puede crear la regla",
         self::CIRCULAR => "El URI de origen ya existe como URI de destino, y crearía redirecciones encadenadas y/o circulares",
         self::DUPE => "El URI de origen ya existe como URI de origen. No se puede redirigir un mismo origen a dos destinos",
+        self::SELFPOINTED => "Origen y destino son iguales. Esta ruta no puede resolverse nunca"
     ];
 
     public function isValid($value, $context = null)
     {
 
         $this->setValue($value);
-        $redirect_type = $context['redirect_type'];
-        if (!$redirect_type) {
-            $redirect_type = 1;
+        $redirect_type = isset($context['redirect_type']) ? $context['redirect_type'] : 1;
+        $id            = isset($context['id']) ? $context['id'] : '';
+        $target        = isset($context['target']) ? $context['target'] : '';
+
+        if ($value === $target) {
+
+            $this->error(self::SELFPOINTED);
+
+            return false;
         }
 
         // no circular redirections here, please. //
@@ -32,11 +40,10 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
         /*
          * Duplicadas
          */
-
-        // si estamos editando id viene, si no está en blanco (entonces en los post la segunda mitad
-        // siempre es true, y en los put sólo cuando estamos editando una que ya existe
+        // Si estamos haciendo un update de un valor existente, $id es igual al id de fila, y lo usamos para evitar
+        // Así evitamos que inserten duplicados, el valor se da por bueno si es el del registro existente.
         $where = new Where();
-        $where->equalTo('origin', $value)->and->notEqualTo('id', $context['id']);
+        $where->equalTo('origin', $value)->and->notEqualTo('id', $id);
 
         /** @var HydratingResultSet $rowset */
         $rowset = $this->adapter->getTable()->select($where);
