@@ -15,7 +15,7 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
     protected $messageTemplates = [
         self::CONFLICT => "El URI de origen hace conflicto con uno existente, no se puede crear la regla",
         self::CIRCULAR => "El URI de origen ya existe como URI de destino, y crearía redirecciones encadenadas y/o circulares",
-        self::DUPE     => "El URI de origen ya existe como URI de origen. No se puede redirigir un mismo origen a dos destinos",
+        self::DUPE => "El URI de origen ya existe como URI de origen. No se puede redirigir un mismo origen a dos destinos",
     ];
 
     public function isValid($value, $context = null)
@@ -23,7 +23,7 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
 
         $this->setValue($value);
         $redirect_type = $context['redirect_type'];
-        if ( ! $redirect_type) {
+        if (!$redirect_type) {
             $redirect_type = 1;
         }
 
@@ -55,8 +55,8 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
 
         // Si la regla está contenida por una existente o viceversa (si la regla que mandamos es abierta)
         $where
-            ->nest// ->
-            ->nest// -->
+            ->nest()// ->
+            ->nest()// -->
             ->like("origin", "$value%")
             ->or
             ->literal("'$value' LIKE CONCAT(origin, '%')")
@@ -67,11 +67,11 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
             ->or
             // si la regla que mandamos es cerrada, sólo comprobamos que no haya ninguna regla más "amplia"
             // en la db
-            ->nest
+            ->nest()
             ->literal("'$value' LIKE CONCAT(origin, '%')")
             ->and
             ->literal("$redirect_type = 1");
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+        if (isset($context['id']) && $context['id']) {
             $where->notEqualTo('id', $context['id']);
         }
 

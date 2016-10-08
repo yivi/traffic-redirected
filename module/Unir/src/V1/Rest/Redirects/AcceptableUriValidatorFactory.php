@@ -4,7 +4,6 @@ namespace Unir\V1\Rest\Redirects;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\Validator\AbstractValidator;
 
 class AcceptableUriValidatorFactory implements FactoryInterface
 {
