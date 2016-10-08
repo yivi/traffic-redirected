@@ -1,21 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yivi
- * Date: 6/10/16
- * Time: 17:25
- */
-
 namespace RedirectsResourceTest\V1\Rest\Redirects;
 
 use Unir\V1\Rest\Redirects\AcceptableOriginValidator;
 use Unir\V1\Rest\Redirects\RedirectsResource;
-use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 
-class AcceptableOriginValidatorTest extends AbstractControllerTestCase
+class AcceptableOriginValidatorTest extends AbstractUriValidatorTest
 {
 
     /** @var  array */
@@ -31,43 +22,6 @@ class AcceptableOriginValidatorTest extends AbstractControllerTestCase
     protected $table;
 
     /** @var  TableGateway $table */
-
-    public function setUp()
-    {
-
-        $dsn = $GLOBALS['DB_DSN'] . ';' . $GLOBALS['DB_DBNAME'];
-
-        $zf_adapter     = new Adapter([
-            'driver' => 'pdo',
-            'dsn' => $dsn,
-            'user' => $GLOBALS['DB_USER'],
-            'pass' => $GLOBALS['DB_PASSWD'],
-        ]);
-        $this->table    = new TableGateway('redirects', $zf_adapter);
-        $this->resource = new RedirectsResource($this->table, 'id', 'Zend\Paginator\Paginator');
-
-
-        $this->data = include '_files/data.php';
-        // $this->validator = $validator;
-        $this->validator = new AcceptableOriginValidator();
-        $this->validator->setAdapter($this->resource);
-
-        // getting the data where it belongs.
-        foreach ($this->data as $row) {
-            $this->table->insert($row);
-        }
-
-        parent::setUp();
-
-    }
-
-    public function tearDown()
-    {
-        // Getting rid of the data.
-        $this->table->getAdapter()->query('TRUNCATE TABLE redirects')->execute();
-        parent::tearDown();
-
-    }
 
     public function testExistsAsTargetFailure()
     {

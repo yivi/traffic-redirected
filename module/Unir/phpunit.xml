@@ -12,7 +12,5 @@
         <var name="DB_DBNAME" value="dbname=pruebaxxx_tests" />
         <var name="DB_USER" value="root" />
         <var name="DB_PASSWD" value="12345678" />
-
-        <var name="dataFile" value="/_files/redirects.xml" />
     </php>
 </phpunit>
