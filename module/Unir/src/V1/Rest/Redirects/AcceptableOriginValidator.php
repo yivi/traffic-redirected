@@ -60,6 +60,7 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
          */
         $where = new Where();
 
+        // fixme: this query sucks a lil' bit
         // Si la regla está contenida por una existente o viceversa (si la regla que mandamos es abierta)
         $where
             ->nest()// ->

@@ -11,7 +11,6 @@ class AcceptableTargetValidatorTest extends AbstractUriValidatorTest
     public function setUp()
     {
         parent::setUp();
-        // $this->validator = $validator;
         $this->validator = new AcceptableTargetValidator();
         $this->validator->setAdapter($this->resource);
 
@@ -33,6 +32,27 @@ class AcceptableTargetValidatorTest extends AbstractUriValidatorTest
 
         $this->assertFalse($result);
 
+    }
+
+    public function testTargetPointsToExistingOriginMatchFailure()
+    {
+        $target = "http://www.example.com/foo/bat/baz.html";
+
+        $result = $this->validator->isValid($target);
+
+        $this->assertFalse($result);
+    }
+
+    public function testTargetValidWithPartialMatch()
+    {
+        $target = "http://www.example.net/newurl/";
+
+        // origin should be rejected, but this validator shouldn't care about it.
+        $context = ['origin' => 'http://www.yivoff.com/oldurl/'];
+
+        $result = $this->validator->isValid($target, $context);
+
+        $this->assertTrue($result);
     }
 
 }

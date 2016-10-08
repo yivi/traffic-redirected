@@ -21,7 +21,14 @@ class AcceptableOriginValidatorTest extends AbstractUriValidatorTest
     /** @var  TableGateway $table */
     protected $table;
 
-    /** @var  TableGateway $table */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->validator = new AcceptableOriginValidator();
+        $this->validator->setAdapter($this->resource);
+
+    }
 
     public function testExistsAsTargetFailure()
     {
