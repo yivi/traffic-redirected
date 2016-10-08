@@ -26,9 +26,8 @@ abstract class AbstractUriValidatorTest extends AbstractControllerTestCase
 
     /** @var  TableGateway $table */
 
-    public function setUp()
+    public function __construct()
     {
-
         $dsn = $GLOBALS['DB_DSN'] . ';' . $GLOBALS['DB_DBNAME'];
 
         $zf_adapter     = new Adapter([
@@ -42,10 +41,13 @@ abstract class AbstractUriValidatorTest extends AbstractControllerTestCase
 
 
         $this->data = include '_files/data.php';
-        // $this->validator = $validator;
-        $this->validator = new AcceptableOriginValidator();
-        $this->validator->setAdapter($this->resource);
 
+        parent::__construct();
+
+    }
+
+    public function setUp()
+    {
         // getting the data where it belongs.
         foreach ($this->data as $row) {
             $this->table->insert($row);
