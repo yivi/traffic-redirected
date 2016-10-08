@@ -19,20 +19,22 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
     protected $data;
 
 
+    /**
+     * Prepping up the scenery
+     *
+     */
     public function setUp()
     {
         $this->data = include '_files/data.php';
-        // Yup. Much to learn, this one has.
-        $this->setApplicationConfig(include(dirname(__FILE__) . '/../../../../../../config/application.config.php'));
 
         $dsn = $GLOBALS['DB_DSN'] . ';' . $GLOBALS['DB_DBNAME'];
 
         // Adapter, TG, and RedirectResource (actual test)
         $zf_adapter     = new Adapter([
             'driver' => 'pdo',
-            'dsn'    => $dsn,
-            'user'   => $GLOBALS['DB_USER'],
-            'pass'   => $GLOBALS['DB_PASSWD'],
+            'dsn' => $dsn,
+            'user' => $GLOBALS['DB_USER'],
+            'pass' => $GLOBALS['DB_PASSWD'],
         ]);
         $this->table    = new TableGateway('redirects', $zf_adapter);
         $this->resource = new RedirectsResource($this->table, 'id', 'Zend\Paginator\Paginator');
@@ -45,6 +47,9 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         parent::setUp();
     }
 
+    /**
+     * The center cannot hold.
+     */
     public function tearDown()
     {
         // Getting rid of the data.
@@ -52,6 +57,9 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         parent::tearDown();
     }
 
+    /**
+     * Pruebo pedir un id y recibir los datos que espero
+     */
     public function testGetId5()
     {
 
@@ -62,6 +70,9 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         $this->assertEquals($this->data[5]['origin'], $result['origin']);
     }
 
+    /**
+     * Pruebo una búsqueda filtrada por "example" en "origen", y debiera recibir 3 resultados
+     */
     public function testFetchAllFilteredOrigin()
     {
         $busqueda = "example";
@@ -79,6 +90,9 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         $this->assertEquals($total, $count);
     }
 
+    /**
+     * Una búsqueda "precisa" que no devuelve resultados porque el url buscado está desactivado
+     */
     public function testFetchAllFilteredOriginEmpty()
     {
         // in the DB, but not active.
@@ -97,6 +111,9 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         $this->assertEquals($total, $count);
     }
 
+    /**
+     * La busqueda "precisa" puede devolver un conjunto de dos urls: el directo y una super-regla que lo contenga
+     */
     public function testFetchAllFilteredOriginPreciseMulti()
     {
 
@@ -106,11 +123,11 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         $result = $this->resource->fetchAll($params);
         $mios   = array_filter($this->data, function ($element) use ($busqueda) {
             return (
-                       preg_match("|^$busqueda$|", $element['origin'])
-                       ||
-                       preg_match("|^" . $element['origin'] . ".?|", $busqueda)
-                   )
-                   && $element['active'] === 1;
+                preg_match("|^$busqueda$|", $element['origin'])
+                ||
+                preg_match("|^" . $element['origin'] . ".?|", $busqueda)
+            )
+            && $element['active'] === 1;
         });
 
         // should return 2:
@@ -120,6 +137,9 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
     }
 
 
+    /**
+     *  Fetch all sin parámetros debiera devolver tantos resultados como insertamos en la DB
+     */
     public function testFetchAll()
     {
         $total  = count($this->data);
@@ -131,6 +151,10 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
 
     }
 
+    /**
+     * Verificamos que los valores por defecto funcionan correctamente
+     * @todo: fixme: aunque por ahora esta "lógica" está en la DB)
+     */
     public function testCreatePartial()
     {
         $input        = ['origin' => 'http://geocities.com/mynew_homepage', 'target' => 'http://altavista.com/123'];
@@ -140,15 +164,18 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         $this->assertEquals($new_redirect['redirect_code'], 301);
     }
 
+    /**
+     * Creación con todos los datos
+     */
     public function testCreateFull()
     {
         $input        = [
-            'origin'        => 'http://geocities.com/mynew_homepage',
-            'target'        => 'http://altavista.com/123',
+            'origin' => 'http://geocities.com/mynew_homepage',
+            'target' => 'http://altavista.com/123',
             'redirect_code' => 302,
             'redirect_type' => 1,
-            'owner'         => 7,
-            'active'        => 1,
+            'owner' => 7,
+            'active' => 1,
         ];
         $params       = new Parameters($input);
         $new_redirect = $this->resource->create($params)->getArrayCopy();
@@ -161,6 +188,9 @@ class RedirectResourceTest extends AbstractHttpControllerTestCase
         );
     }
 
+    /**
+     * Actualizar actualiza
+     */
     public function testUpdate()
     {
 
