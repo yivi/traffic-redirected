@@ -1,0 +1,18 @@
+RedirectsResourceTest\V1\Rest\Redirects\AcceptableOriginValidator
+ [x] Exists as target failure
+ [x] Duplicate failure
+ [x] Valid and unique
+ [x] Circular rule failure
+ [x] Conflicting rule failure
+ [x] Origin equals target failure
+ [x] Wider than existing exact rule
+
+RedirectsResourceTest\V1\Rest\Redirects\RedirectResource
+ [x] Get id 5
+ [x] Fetch all filtered origin
+ [x] Fetch all filtered origin empty
+ [x] Fetch all filtered origin precise multi
+ [x] Fetch all
+ [x] Create partial
+ [x] Create full
+ [x] Update
