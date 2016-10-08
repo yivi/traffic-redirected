@@ -7,10 +7,21 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/V1/Rest/Redirects</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+    <log type="coverage-html" target="./tests/results/coverage" lowUpperBound="35"
+         highLowerBound="70"/>
+        <log type="testdox-text" target="./tests/results/testdox.txt"/>
+    </logging>
     <php>
-        <var name="DB_DSN" value="mysql:host=localhost" />
-        <var name="DB_DBNAME" value="dbname=pruebaxxx_tests" />
-        <var name="DB_USER" value="root" />
-        <var name="DB_PASSWD" value="12345678" />
+        <var name="DB_DSN" value="mysql:host=localhost"/>
+        <var name="DB_DBNAME" value="dbname=pruebaxxx_tests"/>
+        <var name="DB_USER" value="root"/>
+        <var name="DB_PASSWD" value="12345678"/>
     </php>
 </phpunit>
