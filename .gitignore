@@ -7,3 +7,4 @@ adminer.php
 
 .DS_Store
 .idea
+/module/Unir/tests/config.local.php

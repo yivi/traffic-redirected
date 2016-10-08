@@ -1,10 +1,5 @@
 <?php
 return [
-    'service_manager' => [
-        'factories' => [
-            \Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => 'Unir\\V1\\Rest\\Redirects\\AcceptableTargetValidatorFactory',
-        ],
-    ],
     'validators' => [
         'factories' => [
             \Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => \Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
@@ -189,7 +184,7 @@ return [
                     0 => [
                         'name' => \Zend\I18n\Validator\IsInt::class,
                         'options' => [
-                            \locale::class => 'es',
+                            \Locale::class => 'es',
                         ],
                     ],
                 ],
