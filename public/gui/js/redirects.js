@@ -62,11 +62,11 @@
             }
         ];
 
-        var alertme = function(resp) {
-            message = "falló la validación por:\n";
-            $.each(resp.validation_messages, function(val_type) {
-                $.each(val_type, function (mess) {
-                    $message += mess
+        var alertme = function(event, resp_object) {
+            message = "Falló la validación por:\n";
+            $.each(resp_object.responseJSON.validation_messages, function(k, v) {
+                $.each(v, function (k2, v2) {
+                    message += v2 + "\n";
                 });
             });
             alert(message);
