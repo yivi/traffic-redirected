@@ -33,7 +33,8 @@
         "zfcampus/zf-development-mode": "^3.0",
         "zendframework/zend-i18n": "^2.7",
         "phpunit/phpunit": "^5.5",
-        "phpunit/DbUnit": "^2.0"
+        "phpunit/DbUnit": "^2.0",
+        "zendframework/zend-i18n-resources": "^2.5"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "^1.1",
