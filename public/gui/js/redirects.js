@@ -100,9 +100,6 @@ jQuery(function ($) {
             this.on('error', function (model, resp) {
                 alertMe(model, resp);
             });
-            this.on('all', function (e) {
-                console.log(e);
-            })
         }
     });
 

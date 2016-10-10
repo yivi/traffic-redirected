@@ -68,6 +68,8 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
             ->like("origin", "$value%")
             ->or
             ->literal("'$value' LIKE CONCAT(origin, '%')")
+            ->and
+            ->between('redirect_type', '2', '3')
             ->unnest()// <--
             ->and
             ->literal("$redirect_type BETWEEN 2 AND 3")

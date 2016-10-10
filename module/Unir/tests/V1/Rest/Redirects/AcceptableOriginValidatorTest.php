@@ -106,12 +106,30 @@ class AcceptableOriginValidatorTest extends AbstractUriValidatorTest
 
     }
 
-    public function testNarrowerThanExistingExactRuleSuccess()
+    public function testNarrowerOpenThanExistingExactRuleSuccess()
     {
+        $context = [
+            'redirect_type' => '3'
+        ];
 
         $origin = "http://www.abc.com/kknknk";
 
-        $result = $this->validator->isValid($origin);
+        $result = $this->validator->isValid($origin, $context);
+
+        $this->assertTrue($result);
+
+    }
+
+    public function testUpdatingExistingRule()
+    {
+        $context = [
+            'id'     => 14,
+            'target' => 'http://www.example.com/example/foo.php'
+        ];
+
+        $origin = "http://www.abc.com/";
+
+        $result = $this->validator->isValid($origin, $context);
 
         $this->assertTrue($result);
 

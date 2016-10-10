@@ -6,7 +6,8 @@ RedirectsResourceTest\V1\Rest\Redirects\AcceptableOriginValidator
  [x] Conflicting rule failure
  [x] Origin equals target failure
  [x] Wider than existing exact rule success
- [x] Narrower than existing exact rule success
+ [x] Narrower open than existing exact rule success
+ [x] Updating existing rule
 
 RedirectsResourceTest\V1\Rest\Redirects\AcceptableTargetValidator
  [x] Target points to origin failure
