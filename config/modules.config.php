@@ -5,6 +5,7 @@
  * The previous config file has been stored in ./config/modules.config.old
  */
 return [
+    'Zend\Mvc\I18n',
     'Zend\I18n',
     'Zend\\Db',
     'Zend\\Filter',
