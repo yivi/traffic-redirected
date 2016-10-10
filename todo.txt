@@ -1,0 +1,13 @@
+- crear módulo composer sólo de Redirect This!
+- crear módulo sólo para frontal
+
+- autenticación frontal
+- autenticación api
+- validación url existente y 200 para Target (new Validator)
+
+- thinking/loading layer
+
+- mensajes de error menos alertosos.
+- agregar clase de error cuando falle la validación?
+
+- finalizar tests
