@@ -10,4 +10,6 @@
 - mensajes de error menos alertosos.
 - agregar clase de error cuando falle la validación?
 
+- encapsular mejor lógica new/update en redirect.js
+
 - finalizar tests
