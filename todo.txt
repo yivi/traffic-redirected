@@ -5,11 +5,12 @@
 - autenticación api
 - validación url existente y 200 para Target (new Validator)
 
-- thinking/loading layer
-
 - mensajes de error menos alertosos.
 - agregar clase de error cuando falle la validación?
 
 - encapsular mejor lógica new/update en redirect.js
 
 - finalizar tests
+
+- fixed: wtf con los dobles puts?
+- fixed: thinking/loading layer

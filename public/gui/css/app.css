@@ -86,3 +86,14 @@ body {
 .backgrid-filter.form-search {
     float: left;
 }
+
+#loading-spinner {
+    z-index: 50;
+    background-color: rgba(255, 255, 255, 0.51);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

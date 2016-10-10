@@ -60,13 +60,22 @@ jQuery(function ($) {
         }
     ];
 
-    var alertme = function (event, resp_object) {
+    var loadingOn = function (event) {
+        $("body").prepend($("<div id='loading-spinner'>"));
+    };
+
+    var loadingOff = function (event) {
+        $('#loading-spinner').remove();
+    };
+
+    var alertMe = function (event, resp_object) {
         message = "Falló la validación por:\n";
         $.each(resp_object.responseJSON.validation_messages, function (k, v) {
             $.each(v, function (k2, v2) {
                 message += "(" + k + "): " + v2 + "\n";
             });
         });
+        loadingOff();
         alert(message);
     };
 
@@ -74,16 +83,39 @@ jQuery(function ($) {
         urlRoot: '/global/redirects',
         initialize: function () {
             Backbone.Model.prototype.initialize.apply(this, arguments);
+
             this.on("change", function (model, options) {
                 if (options && options.save === false) return;
-                model.save({
-                    error: alertme
-                });
+                model.save(null,{wait:true});
             });
+
+            this.on('fetch request', function (e) {
+                loadingOn(e);
+            });
+
+            this.on('sync error', function (e) {
+                loadingOff(e);
+            });
+
+            this.on('error', function (model, resp) {
+                alertMe(model, resp);
+            });
+            this.on('all', function (e) {
+                console.log(e);
+            })
         }
     });
 
     var RedirectsCollection = Backbone.PageableCollection.extend({
+        initialize: function () {
+            this.on('fetch', function (e) {
+                loadingOn(e);
+            });
+            this.on('sync', function (e) {
+                loadingOff(e);
+            });
+        },
+
         model: Redirects,
         url: '/global/redirects',
 
@@ -144,15 +176,15 @@ jQuery(function ($) {
 
         var redirect = new Redirects(formData);
 
+        // we could target collection.add directly, maybe?
         redirect.save(null, {
             success: function () {
-                console.log('success');
-                redirects_collection.add(redirect);
+                redirects_collection.unshift(redirect);
                 $("#nueva_redireccion").find("input,select").each(function (i, el) {
                     this.value = '';
                 });
-            },
-            error: alertme
+            }
+            // error: alertMe
         });
 
     });
@@ -160,7 +192,6 @@ jQuery(function ($) {
 
     $("#grid").append(grid.render().el)
         .append(paginator.render().el);
-
 
     var originFilter = new Backgrid.Extension.ServerSideFilter({
         collection: redirects_collection,
@@ -177,6 +208,23 @@ jQuery(function ($) {
     });
 
     $("#redireccion_filtros").append(originFilter.render().el).append(targetFilter.render().el);
+
+    // Patch Model and Collection.
+    _.each(["Model", "Collection"], function (name) {
+        // Cache Backbone constructor.
+        var ctor = Backbone[name];
+        // Cache original fetch.
+        var fetch = ctor.prototype.fetch;
+
+        // Override the fetch method to emit a fetch event.
+        ctor.prototype.fetch = function () {
+            // Trigger the fetch event on the instance.
+            this.trigger("fetch", this);
+
+            // Pass through to original fetch.
+            return fetch.apply(this, arguments);
+        };
+    });
 
     redirects_collection.fetch({reset: true});
 });
