@@ -117,13 +117,13 @@ class RedirectsResource extends DbConnectedResource
 
         // en caso de búsqueda precisa ordenamos por tipo de redirect
         if ($data && $data->get('precise_origin')) {
-            $select->order(['redirect_type ASC']);
+            $order='redirect_type ASC';
         } else {
-            $select->order(['origin ASC']);
+            $order='origin ASC';
         }
 
         // exec búsqueda
-        $adapter    = new DbTableGateway($this->table, $select->where);
+        $adapter    = new DbTableGateway($this->table, $select->where, $order);
         $collection = new $this->collectionClass($adapter);
 
         // devolvemos paginator

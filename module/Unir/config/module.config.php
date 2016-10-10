@@ -2,20 +2,9 @@
 return [
     'validators' => [
         'factories' => [
-            Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
-            Unir\V1\Rest\Redirects\AcceptableOriginValidator::class => Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
+            \Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => \Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
+            \Unir\V1\Rest\Redirects\AcceptableOriginValidator::class => \Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
         ],
-    ],
-    'translator' => [
-        'locale' => 'es',
-        'translation_file_patterns' => [
-
-            [
-                'base_dir' => Zend\I18n\Translator\Resources::getBasePath(),
-                'pattern' => Zend\I18n\Translator\Resources::getPatternForValidator(),
-                'type' => 'phparray'
-            ]
-        ]
     ],
     'router' => [
         'routes' => [
@@ -58,6 +47,8 @@ return [
                 3 => 'active',
                 4 => 'code',
                 5 => 'precise_origin',
+                6 => 'order',
+                7 => 'orderby',
             ],
             'page_size' => '50',
             'page_size_param' => 'page_size',
