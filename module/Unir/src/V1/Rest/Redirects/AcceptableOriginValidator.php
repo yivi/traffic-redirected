@@ -14,9 +14,9 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
     const SELFPOINTED = 'SELFPOINTED';
 
     protected $messageTemplates = [
-        self::CONFLICT => "El URI de origen hace conflicto con uno existente, no se puede crear la regla",
-        self::CIRCULAR => "El URI de origen ya existe como URI de destino, y crearía redirecciones encadenadas y/o circulares",
-        self::DUPE => "El URI de origen ya existe como URI de origen. No se puede redirigir un mismo origen a dos destinos",
+        self::CONFLICT    => "El URI de origen hace conflicto con uno existente, no se puede crear la regla",
+        self::CIRCULAR    => "El URI de origen ya existe como URI de destino, y crearía redirecciones encadenadas y/o circulares",
+        self::DUPE        => "El URI de origen ya existe como URI de origen. No se puede redirigir un mismo origen a dos destinos",
         self::SELFPOINTED => "Origen y destino son iguales. Esta ruta no puede resolverse nunca"
     ];
 
@@ -74,15 +74,16 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
             ->unnest()// <-
             ->or
             // si la regla que mandamos es cerrada, sólo comprobamos que no haya ninguna regla más "amplia"
-            // en la db
+            // en la db que matchee la que mandamos.
             ->nest()
             ->literal("'$value' LIKE CONCAT(origin, '%')")
             ->and
-            ->literal("$redirect_type = 1");
-        if (isset($context['id']) && $context['id']) {
+            ->literal("$redirect_type = 1")
+            ->and
+            ->between('redirect_type', 2, 3);
+        if ($id) {
             $where->notEqualTo('id', $context['id']);
         }
-
 
         /** @var HydratingResultSet $rowset */
         $rowset = $this->adapter->getTable()->select($where);
@@ -93,7 +94,6 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
 
             return false;
         }
-
 
         /*
          * Circulares
@@ -109,8 +109,6 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
         if ($rowset->count() !== 0) {
             $this->error(self::CIRCULAR);
 
-            $select = new Select('redirects');
-            $select->where($where);
             return false;
         }
 
