@@ -66,7 +66,7 @@
             message = "Falló la validación por:\n";
             $.each(resp_object.responseJSON.validation_messages, function(k, v) {
                 $.each(v, function (k2, v2) {
-                    message += v2 + "\n";
+                    message += "(" + k + "): " + v2 + "\n";
                 });
             });
             alert(message);
