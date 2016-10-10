@@ -69,12 +69,16 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
             ->or
             ->literal("'$value' LIKE CONCAT(origin, '%')")
             ->and
-            ->between('redirect_type', '2', '3')
+            ->literal('redirect_type between 2 AND 3')
+            // ->between('redirect_type', 2, 3)
             ->unnest()// <--
             ->and
             ->literal("$redirect_type BETWEEN 2 AND 3")
-            ->unnest()// <-
-            ->or
+            ->unnest();// <-
+        if ($id) {
+            $where->notEqualTo('id', $context['id']);
+        }
+        $where->or
             // si la regla que mandamos es cerrada, sólo comprobamos que no haya ninguna regla más "amplia"
             // en la db que matchee la que mandamos.
             ->nest()

@@ -174,6 +174,8 @@ jQuery(function ($) {
         var redirect = new Redirects(formData);
 
         // we could target collection.add directly, maybe?
+
+        // redirects_collection.add(redirect);
         redirect.save(null, {
             success: function () {
                 redirects_collection.unshift(redirect);
