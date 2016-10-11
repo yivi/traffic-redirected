@@ -1,6 +1,8 @@
 - crear módulo composer sólo de Redirect This!
 - crear módulo sólo para frontal
 
+- orden para búsqueda
+
 - autenticación frontal
 - autenticación api
 - validación url existente y 200 para Target (new Validator)
