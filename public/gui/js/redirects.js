@@ -72,11 +72,16 @@ jQuery(function ($) {
         message = "Falló la validación por:\n";
         $.each(resp_object.responseJSON.validation_messages, function (k, v) {
             $.each(v, function (k2, v2) {
-                message += "(" + k + "): " + v2 + "\n";
+                message += "<strong>(" + k + ")</strong>: " + v2 + ', ';
             });
         });
+        $alert = $('<div>');
+        $alert.html('<span>' + message + '</span>');
+        $alert.addClass('alert').addClass('alert-warning');
+        $close = $('<a>').attr('href', '#').attr('data-dismiss', 'alert').attr('aria-label', 'close').addClass('close').html('&times;');
+        $alert.append($close);
+        $alert.appendTo($('#errorlog'));
         loadingOff();
-        alert(message);
     };
 
     var Redirects = Backbone.Model.extend({
