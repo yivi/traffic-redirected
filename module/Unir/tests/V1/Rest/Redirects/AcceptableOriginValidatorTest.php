@@ -41,7 +41,7 @@ class AcceptableOriginValidatorTest extends AbstractUriValidatorTest
 
     public function testDuplicateFailure()
     {
-        $result = $this->validator->isValid('http://www.yivoff.com/');
+        $result = $this->validator->isValid('http://www.example.com/foo/');
 
         // falló la validación
         $this->assertFalse($result);
@@ -73,7 +73,7 @@ class AcceptableOriginValidatorTest extends AbstractUriValidatorTest
         $context = [
             'redirect_type' => '3'
         ];
-        $results = $this->validator->isValid('http://www.yivoff.com/foobar/', $context);
+        $results = $this->validator->isValid('http://subdomain.domain.com/', $context);
 
         $this->assertFalse($results);
     }
@@ -120,7 +120,7 @@ class AcceptableOriginValidatorTest extends AbstractUriValidatorTest
 
     }
 
-    public function testUpdatingExistingRule()
+    public function testUpdatingExistingRuleSuccess()
     {
         $context = [
             'id'     => 14,
@@ -132,6 +132,22 @@ class AcceptableOriginValidatorTest extends AbstractUriValidatorTest
         $result = $this->validator->isValid($origin, $context);
 
         $this->assertTrue($result);
+
+    }
+
+    public function testWiderCircularRuleFailure()
+    {
+        $context = [
+            'id'            => 11,
+            'target'        => 'http://www.yivoff.net',
+            'redirect_type' => 2
+        ];
+
+        $origin = "http://www.yivoff.com/";
+
+        $result = $this->validator->isValid($origin, $context);
+
+        $this->assertFalse($result);
 
     }
 

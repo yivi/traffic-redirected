@@ -9,6 +9,7 @@ class Module implements ApigilityProviderInterface
 {
     public function getConfig()
     {
+        // $non_apigility_config = include __DIR__ . '/config/module.custom.config.php';
         return include __DIR__ . '/config/module.config.php';
     }
 

@@ -11,7 +11,6 @@ return [
     [ 'id' => 8, 'origin' => 'http://subdomain.domain.com/img/', 'target' => 'http://s.subdomain.domain.com/imgs/', 'owner' => 3, 'redirect_type' => 3, 'redirect_code' => '302', 'active' => 1],
     [ 'id' => 9, 'origin' => 'http://subdomain.domain.com/old/moore.php', 'target' => 'http://subdomain.domain.com/path/newapp/', 'owner' => 2, 'redirect_type' => 1, 'redirect_code' => '302', 'active' => 1],
     [ 'id' => 10, 'origin' => 'http://whoiswho.co.uk/batman', 'target' => 'http://whoiswho.co.uk/brucewayne', 'owner' => 2, 'redirect_type' => 1, 'redirect_code' => '301', 'active' => 0],
-    [ 'id' => 11, 'origin' => 'http://www.yivoff.com/', 'target' => 'http://www.yivoff.es/', 'owner' => 3, 'redirect_type' => 3, 'redirect_code' => '301', 'active' => 1],
     [ 'id' => 12, 'origin' => 'http://www.abcdotcom.org/fizz/buzz.html', 'target' => 'http://www.fizzbuzz.gov/', 'owner' => 3, 'redirect_type' => 1, 'redirect_code' => '301', 'active' => 1],
     [ 'id' => 13, 'origin' => 'http://www.abcdotcom.org/fizz/howto.html', 'target' => 'http://www.fizzbuzz.gov/info/', 'owner' => 3, 'redirect_type' => 1, 'redirect_code' => '301', 'active' => 1],
     [ 'id' => 14, 'origin' => 'http://www.abc.com/', 'target' => 'http://www.xyz.com/', 'owner' => 3, 'redirect_type' => 1, 'redirect_code' => '301', 'active' => 1],

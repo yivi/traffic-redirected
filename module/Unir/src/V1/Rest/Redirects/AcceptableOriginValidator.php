@@ -68,10 +68,10 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
             ->like("origin", "$value%")
             ->or
             ->literal("'$value' LIKE CONCAT(origin, '%')")
+            ->unnest()// <--
             ->and
             ->literal('redirect_type between 2 AND 3')
             // ->between('redirect_type', 2, 3)
-            ->unnest()// <--
             ->and
             ->literal("$redirect_type BETWEEN 2 AND 3")
             ->unnest();// <-
@@ -112,6 +112,10 @@ class AcceptableOriginValidator extends AcceptableTargetValidator
             ->unnest();
 
         $rowset = $this->adapter->getTable()->select($where);
+
+        $select = new Select('redirects');
+        $select->where($where);
+
         if ($rowset->count() !== 0) {
             $this->error(self::CIRCULAR);
 
