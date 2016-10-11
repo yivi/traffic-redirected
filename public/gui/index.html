@@ -6,38 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Redirect This!</title>
 
-    <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/backgrid-paginator.min.css">
     <link rel="stylesheet" href="css/backgrid-filter.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app.css">
 
 </head>
 <body class="redirects">
-<div id="redirects">
+<div id="redirects" class="container-fluid">
     <form id="nueva_redireccion" class="nueva_redireccion_form" action="#">
 
-        <fieldset class="form-group">
+        <fieldset>
             <legend>Insertar nueva redirección</legend>
-            <div>
+            <div class="col-md-4">
                 <label for="origin">Origen:</label> <input id="origin" class="form-control">
             </div>
-            <div>
+            <div class="col-md-4">
                 <label for="target">Destino:</label> <input id="target" class="form-control">
             </div>
-        </fieldset>
-        <fieldset>
-            <label for="redirect_type">Tipo redirección</label>
-            <select id="redirect_type" class="form-control" name="redirect_type">
-                <option value="1">URL idéntico</option>
-                <option value="2">Comienza por "x"</option>
-                <option value="3">Comienza por "x" + Captura de "Y"</option>
-            </select>
-            <button id="add" class="form-control">Crear</button>
+            <div class="col-md-2">
+                <label for="redirect_type">Tipo redirección</label>
+                <select id="redirect_type" class="form-control" name="redirect_type">
+                    <option value="1">URL idéntico</option>
+                    <option value="2">Comienza por "x"</option>
+                    <option value="3">Comienza por "x" + Captura de "Y"</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button id="add" class="btn-block btn btn-primary btn-lg">Crear</button>
+            </div>
         </fieldset>
 
     </form>
 
-    <div id="redireccion_filtros"></div>
+    <div>
+        <fieldset id="redireccion_filtros">
+            <h4>Buscar</h4>
+        </fieldset>
+    </div>
 </div>
 
 <div id="grid" class="grid"></div>

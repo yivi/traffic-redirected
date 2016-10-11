@@ -4,9 +4,10 @@
 - autenticación frontal
 - autenticación api
 - validación url existente y 200 para Target (new Validator)
+- importar csv con redirecciones
 
 - mensajes de error menos alertosos.
-- agregar clase de error cuando falle la validación?
+- agregar clase de error a inputs cuando falle la validación?
 
 - encapsular mejor lógica new/update en redirect.js
 
