@@ -40,7 +40,7 @@ class RedirectsResource extends DbConnectedResource
         $rowset = $this->table->selectWith($select);
         $row    = $rowset->current();
 
-        if ( ! $row) {
+        if (!$row) {
             $id = 1;
         } else {
             $id = $row->id + 1;
@@ -63,7 +63,7 @@ class RedirectsResource extends DbConnectedResource
      */
     public function fetchAll($data = [])
     {
-        $where  = [];
+        $where = [];
         // Los parámetros a los que les hago caso para el filtro
         $params = ['origin', 'target', 'owner', 'code'];
 
@@ -89,12 +89,12 @@ class RedirectsResource extends DbConnectedResource
                 ->expression("'66'=?", 66)
                 ->equalTo('active', '1')
                 ->nest()
-                  ->nest()
-                    ->literal("'{$data['origin']}' REGEXP concat(origin, '.?') " )
-                    ->between('redirect_type', 2, 3)
-                  ->unnest()
+                ->nest()
+                ->literal("'{$data['origin']}' REGEXP concat(origin, '.?') ")
+                ->between('redirect_type', 2, 3)
+                ->unnest()
                 ->or
-                  ->equalTo('origin', $data['origin'])
+                ->equalTo('origin', $data['origin'])
                 ->unnest();
 
             // no vamos a volver a buscar por origin
@@ -106,7 +106,7 @@ class RedirectsResource extends DbConnectedResource
         }
 
         // si tenemos algo en el $where, lo agregamos a nuestro predicado
-        if ( ! empty($where)) {
+        if (!empty($where)) {
             foreach ($where as $wh => $ere) {
                 $whereObj->like($wh, $ere);
             }
@@ -117,13 +117,16 @@ class RedirectsResource extends DbConnectedResource
 
         // en caso de búsqueda precisa ordenamos por tipo de redirect
         if ($data && $data->get('precise_origin')) {
-            $order='redirect_type ASC';
+            $sort  = 'redirect_type';
+            $order = 'ASC';
         } else {
-            $order='origin ASC';
+            $sort  = $data->get('sort') ? $data->get('sort') : 'origin';
+            $order = $data->get('order') ? $data->get('order') : 'asc';
+
         }
 
         // exec búsqueda
-        $adapter    = new DbTableGateway($this->table, $select->where, $order);
+        $adapter = new DbTableGateway($this->table, $whereObj, [$sort => $order]);
         // new Paginator
         $collection = new $this->collectionClass($adapter);
 

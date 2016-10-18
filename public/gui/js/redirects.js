@@ -30,7 +30,7 @@ jQuery(function ($) {
         }
     });
 
-    var MyDateTime = Backgrid.StringCell.extend({
+    var Unir_DateTime_Cell = Backgrid.StringCell.extend({
         formatter: unir_date_formatter,
         className: 'timestamp'
     });
@@ -78,13 +78,13 @@ jQuery(function ($) {
         {
             name: "created_at",
             label: "Creado",
-            cell: MyDateTime,
+            cell: Unir_DateTime_Cell,
             editable: false
         },
         {
             name: "modified_at",
             label: 'Modificado',
-            cell: MyDateTime,
+            cell: Unir_DateTime_Cell,
             editable: false
         },
         {
