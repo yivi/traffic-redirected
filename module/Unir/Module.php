@@ -3,14 +3,19 @@ namespace Unir;
 
 // use Zend\I18n\Translator\Translator;
 use Zend\Mvc\MvcEvent;
+use Zend\Stdlib\ArrayUtils;
 use ZF\Apigility\Provider\ApigilityProviderInterface;
 
 class Module implements ApigilityProviderInterface
 {
     public function getConfig()
     {
-        // $non_apigility_config = include __DIR__ . '/config/module.custom.config.php';
-        return include __DIR__ . '/config/module.config.php';
+        // la configuración de module.config.php es sobreescrita por apigility, y aunque las personalizaciones permanezcan a veces ocurren cosas raras.
+        // para mantener separadas la configuración de apigility y la adicional que necesitemos, mergeamos con otro fichero dónde la conservamos
+        $non_apigility_config = include __DIR__ . '/config/custom.config.php';
+        $apigility_config     = include __DIR__ . '/config/module.config.php';
+
+        return ArrayUtils::merge($apigility_config, $non_apigility_config);
     }
 
     public function getAutoloaderConfig()

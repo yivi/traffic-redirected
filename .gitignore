@@ -4,7 +4,9 @@ config/development.config.php
 data/cache/*
 !data/cache/.gitkeep
 adminer.php
-
+data/uploads/*
+!data/uploads/.gitkeep
 .DS_Store
 .idea
-/module/Unir/tests/config.local.php
+module/Unir/tests/config.local.php
+data/*

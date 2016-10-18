@@ -1,11 +1,5 @@
 <?php
 return [
-    'validators' => [
-        'factories' => [
-            \Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => \Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
-            \Unir\V1\Rest\Redirects\AcceptableOriginValidator::class => \Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
-        ],
-    ],
     'router' => [
         'routes' => [
             'unir.rest.redirects' => [
@@ -17,11 +11,21 @@ return [
                     ],
                 ],
             ],
+            'unir.rest.redirect-collection' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/global/redirects/collection[/:redirect_collection_id]',
+                    'defaults' => [
+                        'controller' => 'Unir\\V1\\Rest\\RedirectCollection\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
         'uri' => [
             0 => 'unir.rest.redirects',
+            1 => 'unir.rest.redirect-collection',
         ],
     ],
     'zf-rest' => [
@@ -56,10 +60,33 @@ return [
             'collection_class' => \Unir\V1\Rest\Redirects\RedirectsCollection::class,
             'service_name' => 'Redirects',
         ],
+        'Unir\\V1\\Rest\\RedirectCollection\\Controller' => [
+            'listener' => \Unir\V1\Rest\RedirectCollection\RedirectCollectionResource::class,
+            'route_name' => 'unir.rest.redirect-collection',
+            'route_identifier_name' => 'redirect_collection_id',
+            'collection_name' => 'redirect_collection',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'POST',
+                1 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Unir\V1\Rest\RedirectCollection\RedirectCollectionEntity::class,
+            'collection_class' => \Unir\V1\Rest\RedirectCollection\RedirectCollectionCollection::class,
+            'service_name' => 'RedirectCollection',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
             'Unir\\V1\\Rest\\Redirects\\Controller' => 'HalJson',
+            'Unir\\V1\\Rest\\RedirectCollection\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
             'Unir\\V1\\Rest\\Redirects\\Controller' => [
@@ -67,9 +94,18 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
+            'Unir\\V1\\Rest\\RedirectCollection\\Controller' => [
+                0 => 'application/vnd.unir.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'Unir\\V1\\Rest\\Redirects\\Controller' => [
+                0 => 'application/vnd.unir.v1+json',
+                1 => 'application/json',
+            ],
+            'Unir\\V1\\Rest\\RedirectCollection\\Controller' => [
                 0 => 'application/vnd.unir.v1+json',
                 1 => 'application/json',
             ],
@@ -87,6 +123,18 @@ return [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'unir.rest.redirects',
                 'route_identifier_name' => 'redirects_id',
+                'is_collection' => true,
+            ],
+            \Unir\V1\Rest\RedirectCollection\RedirectCollectionEntity::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'unir.rest.redirect-collection',
+                'route_identifier_name' => 'redirect_collection_id',
+                'hydrator' => \Zend\Hydrator\ArraySerializable::class,
+            ],
+            \Unir\V1\Rest\RedirectCollection\RedirectCollectionCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'unir.rest.redirect-collection',
+                'route_identifier_name' => 'redirect_collection_id',
                 'is_collection' => true,
             ],
         ],
@@ -107,6 +155,9 @@ return [
     'zf-content-validation' => [
         'Unir\\V1\\Rest\\Redirects\\Controller' => [
             'input_filter' => 'Unir\\V1\\Rest\\Redirects\\Validator',
+        ],
+        'Unir\\V1\\Rest\\RedirectCollection\\Controller' => [
+            'input_filter' => 'Unir\\V1\\Rest\\RedirectCollection\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -263,8 +314,39 @@ return [
                 'description' => 'HTTP Status code for the redirection',
             ],
         ],
+        'Unir\\V1\\Rest\\RedirectCollection\\Validator' => [
+            0 => [
+                'required' => true,
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\File\Size::class,
+                        'options' => [
+                            'max' => '524288',
+                        ],
+                    ],
+                ],
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\File\RenameUpload::class,
+                        'options' => [
+                            'target' => './data/uploads',
+                            'randomize' => true,
+                            'use_upload_extension' => true,
+                        ],
+                    ],
+                ],
+                'name' => 'dataset',
+                'type' => \Zend\InputFilter\FileInput::class,
+                'description' => 'CSV file with data to import',
+            ],
+        ],
     ],
     'validator_metadata' => [
         \Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => [],
+    ],
+    'service_manager' => [
+        'factories' => [
+            \Unir\V1\Rest\RedirectCollection\RedirectCollectionResource::class => \Unir\V1\Rest\RedirectCollection\RedirectCollectionResourceFactory::class,
+        ],
     ],
 ];
