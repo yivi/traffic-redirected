@@ -1,8 +1,6 @@
 <?php
 namespace Unir\V1\Rest\RedirectCollection;
 
-use Unir\V1\Rest\Redirects\AcceptableOriginValidator;
-use Unir\V1\Rest\Redirects\AcceptableTargetValidator;
 use Unir\V1\Rest\Redirects\RedirectsResource;
 use Zend\Stdlib\Parameters;
 use Zend\Validator\ValidatorChain;
@@ -61,7 +59,6 @@ class RedirectCollectionResource extends AbstractResourceListener
                 'redirect_type' => $redirect_type
             ];
 
-            $true = false;
             if ($this->origin_validators->isValid($row[0], $context) && $this->target_validators->isValid($row[1], $context)) {
 
                 $params = new Parameters(['target' => $row[1], 'origin' => $row[0], 'redirect_type' => $redirect_type]);
@@ -70,7 +67,7 @@ class RedirectCollectionResource extends AbstractResourceListener
                 $exitos++;
             } else {
                 if (!$log_errores) {
-                    $log_errores = fopen('./data/' . date('Ymd') . '_errors_' . $data['name'], 'a');
+                    $log_errores = fopen('./data/uploads/' . date('Ymd-His') . '_errors_' . $data['name'], 'a');
                 }
                 $fallos++;
                 fputcsv($log_errores, $row, ';', '"', '\\');
@@ -79,6 +76,8 @@ class RedirectCollectionResource extends AbstractResourceListener
         }
 
         unlink($data['tmp_name']);
+
+        return true;
 
     }
 
