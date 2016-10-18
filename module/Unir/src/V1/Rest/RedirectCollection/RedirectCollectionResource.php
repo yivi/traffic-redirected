@@ -49,12 +49,13 @@ class RedirectCollectionResource extends AbstractResourceListener
         $fallos      = 0;
         $log_errores = null;
         $exitos      = 0;
+        $filename    = date('Ymd-His') . '_errors_' . $data['name'];
 
         $file = fopen($data['tmp_name'], 'r');
 
         while ($row = fgetcsv($file, 1024, ';', '"', '\\')) {
 
-            $redirect_type = isset($row[2]) ? $row[2] : 1;
+            $redirect_type = isset($row[2]) && $row[2] ? $row[2] : 1;
             $context       = [
                 'redirect_type' => $redirect_type
             ];
@@ -67,7 +68,7 @@ class RedirectCollectionResource extends AbstractResourceListener
                 $exitos++;
             } else {
                 if (!$log_errores) {
-                    $log_errores = fopen('./data/uploads/' . date('Ymd-His') . '_errors_' . $data['name'], 'a');
+                    $log_errores = fopen('./data/uploads/' . $filename, 'a');
                 }
                 $fallos++;
                 fputcsv($log_errores, $row, ';', '"', '\\');
@@ -77,7 +78,7 @@ class RedirectCollectionResource extends AbstractResourceListener
 
         unlink($data['tmp_name']);
 
-        return true;
+        return ['fallos' => $fallos, 'report' => $filename];
 
     }
 

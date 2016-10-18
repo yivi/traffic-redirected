@@ -102,13 +102,18 @@ jQuery(function ($) {
         $('#loading-spinner').remove();
     };
 
-    var alertMe = function (event, resp_object) {
+    var insert_error = function (event, resp_object) {
         message = "Falló la validación por:\n";
         $.each(resp_object.responseJSON.validation_messages, function (k, v) {
             $.each(v, function (k2, v2) {
                 message += "<strong>(" + k + ")</strong>: " + v2 + ', ';
             });
         });
+
+        alert_me(message);
+    };
+
+    var alert_me = function (message) {
         $alert = $('<div>');
         $alert.html('<span>' + message + '</span>');
         $alert.addClass('alert').addClass('alert-warning');
@@ -117,6 +122,7 @@ jQuery(function ($) {
         $alert.appendTo($('#errorlog'));
         loadingOff();
     };
+
 
     var Redirects = Backbone.Model.extend({
         urlRoot: '/global/redirects',
@@ -137,7 +143,7 @@ jQuery(function ($) {
             });
 
             this.on('error', function (model, resp) {
-                alertMe(model, resp);
+                insert_error(model, resp);
             });
         }
     });
@@ -266,7 +272,6 @@ jQuery(function ($) {
     });
 
     $('#uploader_div').find('.closer').click(function (e) {
-        console.log('target locked');
         $('#uploader_div').hide();
     });
 
@@ -277,6 +282,8 @@ jQuery(function ($) {
         // that it looks correct.
         var fd = new FormData(jQuery(this)[0]);
 
+        waitingDialog.show('Procesando...');
+
         jQuery.ajax({
             url: '/global/redirects/collections', // Specify the path to your API service
             type: 'POST',              // Assuming creation of an entity
@@ -285,7 +292,15 @@ jQuery(function ($) {
             processData: false,
             success: function (data) {
                 // Handle the response on success
+                waitingDialog.hide();
+                $('#uploader_div').hide();
                 console.log(JSON.stringify(data));
+                if (data.fallos > 0) {
+                    var message = data.fallos + ' registros no se pudieron importar. Los registros que han fallado se pueden descargar desde aquí: ';
+                    message += '<a href="/global/redirects/collection/import_log/' + data.report + '">' + data.report + '</a>';
+                    alert_me(message);
+                }
+
             }
         });
     });
