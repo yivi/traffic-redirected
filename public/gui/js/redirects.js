@@ -1,5 +1,41 @@
 jQuery(function ($) {
-    var ActionCell = Backgrid.Cell.extend({
+
+
+    var unir_date_formatter = _.extend({}, Backgrid.CellFormatter.prototype, {
+        fromRaw: function (rawValue, model) {
+
+            if (!rawValue) {
+                return '';
+            }
+
+            var months = [
+                '',
+                'Ene',
+                'Feb',
+                'Mar',
+                'Abr',
+                'May',
+                'Jun',
+                'Jul',
+                'Ago',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dic'
+            ];
+
+            var matches = rawValue.match(/2\d(\d\d)-(\d\d)-(\d\d) (\d\d:\d\d:\d\d)/);
+
+            return matches[3] + ' ' + months[matches[2]] + ' ' + matches[1] + ' (' + matches[4] + ')';
+        }
+    });
+
+    var MyDateTime = Backgrid.StringCell.extend({
+        formatter: unir_date_formatter,
+        className: 'timestamp'
+    });
+
+    var BorrarCell = Backgrid.Cell.extend({
         events: {
             'click button': 'deleteRow'
         },
@@ -13,7 +49,6 @@ jQuery(function ($) {
         },
         className: 'borrarBoton'
     });
-
 
     var columns = [
         {
@@ -43,19 +78,19 @@ jQuery(function ($) {
         {
             name: "created_at",
             label: "Creado",
-            cell: "datetime", // An integer cell is a number cell that displays humanized integers
+            cell: MyDateTime,
             editable: false
         },
         {
             name: "modified_at",
             label: 'Modificado',
-            cell: "datetime",
+            cell: MyDateTime,
             editable: false
         },
         {
             name: 'borrar',
             label: 'Borrar',
-            cell: ActionCell
+            cell: BorrarCell
 
         }
     ];
@@ -91,7 +126,7 @@ jQuery(function ($) {
 
             this.on("change", function (model, options) {
                 if (options && options.save === false) return;
-                model.save(null,{wait:true});
+                model.save(null, {wait: true});
             });
 
             this.on('fetch request', function (e) {

@@ -124,6 +124,7 @@ class RedirectsResource extends DbConnectedResource
 
         // exec búsqueda
         $adapter    = new DbTableGateway($this->table, $select->where, $order);
+        // new Paginator
         $collection = new $this->collectionClass($adapter);
 
         // devolvemos paginator

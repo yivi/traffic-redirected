@@ -66,6 +66,9 @@ body {
     margin-top:17px;
 }
 
+.backgrid .timestamp {
+    text-align: right;;
+}
 
 #loading-spinner {
     z-index: 50;
