@@ -1,6 +1,5 @@
 jQuery(function ($) {
 
-
     var unir_date_formatter = _.extend({}, Backgrid.CellFormatter.prototype, {
         fromRaw: function (rawValue, model) {
 
@@ -213,9 +212,6 @@ jQuery(function ($) {
 
         var redirect = new Redirects(formData);
 
-        // we could target collection.add directly, maybe?
-
-        // redirects_collection.add(redirect);
         redirect.save(null, {
             success: function () {
                 redirects_collection.unshift(redirect);
@@ -223,9 +219,7 @@ jQuery(function ($) {
                     this.value = '';
                 });
             }
-            // error: alertMe
         });
-
     });
 
 
@@ -266,5 +260,35 @@ jQuery(function ($) {
     });
 
     redirects_collection.fetch({reset: true});
+
+    $('#open_importer').click(function (e) {
+        $('#uploader_div').show();
+    });
+
+    $('#uploader_div').find('.closer').click(function (e) {
+        console.log('target locked');
+        $('#uploader_div').hide();
+    });
+
+    $('#uploader_form').submit(function (e) {
+        e.preventDefault();
+
+        // Note: if you observe 422 responses, check what's assembled into fd amd
+        // that it looks correct.
+        var fd = new FormData(jQuery(this)[0]);
+
+        jQuery.ajax({
+            url: '/global/redirects/collections', // Specify the path to your API service
+            type: 'POST',              // Assuming creation of an entity
+            contentType: false,        // To force multipart/form-data
+            data: fd,
+            processData: false,
+            success: function (data) {
+                // Handle the response on success
+                console.log(JSON.stringify(data));
+            }
+        });
+    });
+
 });
 

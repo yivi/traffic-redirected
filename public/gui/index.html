@@ -39,11 +39,31 @@
 
     </form>
     <div id="errorlog"></div>
-    <div>
+    <div class="col-md-6 col-s-12">
         <fieldset id="redireccion_filtros">
             <h4>Buscar</h4>
         </fieldset>
     </div>
+
+    <div  class="holder col-md-6 col-s-12">
+        <button id="open_importer" class="btn btn-info btn-sm" >Importar Redirecciones</button>
+    </div>
+</div>
+<div id="uploader_div">
+    <div class="closer">x</div>
+    <form id="uploader_form">
+        <fieldset>
+            <h4>Importar Redirecciones</h4>
+
+            <label for="file_attachment">Seleccionar Fichero CSV</label>
+            <input id="file_attachment" name="dataset" class="input-file" type="file">
+            <div>
+                <span class="descripcion">Origen en primera columna, destino en segunda columna. Tercera columna opcional para definir tipo de redirección (1 = exacta, 2 = comienza por, 3 = comienza por con captura). Usar ";" como separador de columnas.</span>
+            </div>
+            <button id="submit" name="submit" class="btn btn-primary">Importar fichero con redirecciones</button>
+
+        </fieldset>
+    </form>
 </div>
 
 <div id="grid" class="grid"></div>

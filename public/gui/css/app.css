@@ -80,3 +80,48 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.holder {
+    text-align: center;
+    padding: 30px;
+}
+
+#uploader_div{
+    padding-top: 15%;
+    z-index: 50;
+    background-color: rgba(205, 205, 205, 0.87);
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#uploader_div input[type="file"] {
+    width: 100%;
+    text-align: center;
+}
+
+#uploader_div button {
+    margin-top: 20px;
+}
+
+#uploader_div .descripcion {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 85%;
+    display: inline-block;
+    width:70%;
+}
+
+#uploader_div .closer {
+    position: absolute;
+    top: 1%;
+    right: 2%;
+    font-weight: bold;
+    font-size: 150%;
+    cursor: pointer;
+    color: maroon;
+}

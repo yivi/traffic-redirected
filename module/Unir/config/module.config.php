@@ -14,7 +14,7 @@ return [
             'unir.rest.redirect-collection' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/global/redirects/collection[/:redirect_collection_id]',
+                    'route' => '/global/redirects/collections[/:redirect_collection_id]',
                     'defaults' => [
                         'controller' => 'Unir\\V1\\Rest\\RedirectCollection\\Controller',
                     ],
