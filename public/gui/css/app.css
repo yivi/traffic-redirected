@@ -15,6 +15,10 @@ body {
     border: 0;
 }
 
+.backgrid td, .backgrid th {
+    display: none;
+}
+
 .backgrid td.renderable, .backgrid th.renderable {
     display: table-cell;
 }
@@ -40,49 +44,17 @@ body {
     text-align: center;
 }
 
-/*.input_form_container fieldset {*/
-    /*padding: 10px;*/
-/*}*/
-
-/*.nueva_redireccion_form button {*/
-    /*width: 80px;*/
-/*}*/
-
-/*.nueva_redireccion_form select {*/
-    /*width: 300px;*/
-/*}*/
-
-/*.nueva_redireccion_form select, .nueva_redireccion_form button {*/
-    /*!*display: inline-block;*!*/
-    /*margin-left:10px;*/
-/*}*/
-
-/*.nueva_redireccion_form fieldset div {*/
-    /*width: 33%;*/
-    /*margin: 0.2%;*/
-    /*float: left;*/
-/*}*/
-
-/*.nueva_redireccion_form fieldset div.small {*/
-    /*width: 23%;*/
-    /*margin: 0.2%;*/
-    /*float: left;*/
-/*}*/
-
-
-.backgrid tr:nth-child(odd) {
+/* stripped rows */
+.backgrid.table-stripped tr:nth-child(odd) {
     background-color: #f0f2f7;
 }
 
 .backgrid tr td {
     border-left: 1px solid lightgray;
 }
-.backgrid tr td:nth-child(2) {
-    border-left: 0;
-}
 
 .backgrid tr td:last-child {
-    border-right: 0;
+    border-right: 1px solid lightgray;;
 }
 
 .backgrid-filter.form-search {
