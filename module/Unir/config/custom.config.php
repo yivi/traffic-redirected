@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'validators' => [
+    'validators'          => [
         'factories' => [
             \Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => \Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
             \Unir\V1\Rest\Redirects\AcceptableOriginValidator::class => \Unir\V1\Rest\Redirects\AcceptableUriValidatorFactory::class,
         ],
     ],
-    'translator' => [
+    'translator'          => [
         'locale'                    => 'es',
         'translation_file_patterns' => [
             [
@@ -17,13 +17,32 @@ return [
             ]
         ]
     ],
+    'router'              => [
+        'routes' => [
+            'unir.redirects.import.error.log' => [
+                'type'    => 'Segment',
+                'options' => [
+                    'route'    => '/global/redirects/collection/import_log/:filename',
+                    'defaults' => [
+                        'controller' => 'importer_log',
+                        'action'     => 'index'
+                    ],
+                ],
+            ],
+        ]
+    ],
+    'controllers'         => [
+        'invokables' => [
+            'importer_log' => \Unir\Controller\RedirectCollectionImportLogController::class
+        ]
+    ],
     'importer_validators' => [
         'origin' => [
-            \Zend\Validator\Uri::class => [ 'allowRelative' => false],
+            \Zend\Validator\Uri::class                               => ['allowRelative' => false],
             \Unir\V1\Rest\Redirects\AcceptableOriginValidator::class => []
         ],
         'target' => [
-            \Zend\Validator\Uri::class => ['allowRelative' => false],
+            \Zend\Validator\Uri::class                              => ['allowRelative' => false],
             Unir\V1\Rest\Redirects\AcceptableTargetValidator::class => []
         ]
     ]
