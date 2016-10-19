@@ -125,3 +125,7 @@ body {
     cursor: pointer;
     color: maroon;
 }
+
+.backgrid .editable input {
+    width: 100%;
+}
