@@ -3,10 +3,9 @@ return [
     'zf-content-negotiation' => [
         'selectors' => [],
     ],
-    'db'                     => [
+    'db' => [
         'adapters' => [
-            'dummy'   => [],
             'vagrant' => [],
         ],
-    ]
+    ],
 ];

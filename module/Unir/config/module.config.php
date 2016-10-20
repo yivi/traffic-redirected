@@ -65,15 +65,9 @@ return [
             'route_name' => 'unir.rest.redirect-collection',
             'route_identifier_name' => 'redirect_collection_id',
             'collection_name' => 'redirect_collection',
-            'entity_http_methods' => [
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-            ],
+            'entity_http_methods' => [],
             'collection_http_methods' => [
                 0 => 'POST',
-                1 => 'GET',
             ],
             'collection_query_whitelist' => [],
             'page_size' => 25,
@@ -108,6 +102,7 @@ return [
             'Unir\\V1\\Rest\\RedirectCollection\\Controller' => [
                 0 => 'application/vnd.unir.v1+json',
                 1 => 'application/json',
+                2 => 'multipart/form-data',
             ],
         ],
     ],
