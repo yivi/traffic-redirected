@@ -2,8 +2,6 @@
 namespace Unir\V1\Rest\RedirectCollection;
 
 use Interop\Container\ContainerInterface;
-use Unir\V1\Rest\Redirects\AcceptableOriginValidator;
-use Unir\V1\Rest\Redirects\AcceptableTargetValidator;
 use Unir\V1\Rest\Redirects\RedirectsResource;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
